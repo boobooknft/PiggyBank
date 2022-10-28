@@ -79,8 +79,7 @@ const OwnDepositTransaction = ({selectedRowId, setIsDeposited, setDepositHash, s
         console.log(isRowSelected)
 
   return (
-    <>
-    <Stack>
+    <Stack pb="50px">
       <Title
       mt="20px" 
       order={5}
@@ -101,13 +100,13 @@ const OwnDepositTransaction = ({selectedRowId, setIsDeposited, setDepositHash, s
       {isDepositLoading && 'Waiting for Approval'}
       {isDepositStarted && 'Depositing'}
     </Button>    
-    </Stack>   
+    
       {error && isRowSelected && (
-        <Alert title="Error" my="xl">
+        <Alert title="Error" mt="xl">
         <Text>An error occurred: {obj.reason} </Text>
         </Alert> 
       )}
-    </>
+      </Stack>   
   )
 }
 

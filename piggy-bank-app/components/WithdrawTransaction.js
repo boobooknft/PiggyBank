@@ -64,9 +64,9 @@ const WithdrawTransaction = ({selectedRowId, setIsWithdrawn, setWithdrawHash, se
 
 
   return (
-    <>
       <Stack position="center"
-      mt='lg'>
+      mt='lg'
+      pb="50px">
       <Title
       mt="20px" 
       order={5}
@@ -86,13 +86,12 @@ const WithdrawTransaction = ({selectedRowId, setIsWithdrawn, setWithdrawHash, se
           {isWithdrawStarted && 'Withdrawing'}
           {!isWithdrawLoading && !isWithdrawStarted && 'Withdraw'}
       </Button>
-    </Stack>
     {error && isRowSelected && (
-      <Alert title="Error" my="xl">
+      <Alert title="Error" mt="xl">
       <Text> {obj.reason} </Text>
       </Alert> 
     )}
-    </>
+    </Stack>
   )
 }
 

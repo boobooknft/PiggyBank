@@ -87,7 +87,7 @@ const ElseDepositTransaction = () => {
   return (
     <>
       {!isDeposited && (
-        <Stack>
+        <Stack pb="50px">
           <Title 
             order={2}
             align="center">
@@ -110,7 +110,7 @@ const ElseDepositTransaction = () => {
             {isDepositStarted && 'Depositing'}
           </Button> 
           {error && isRowSelected && 
-          <Alert style={{width: 256}}  title="Error" my="xl">
+          <Alert style={{width: 256}}  title="Error" mt="xl">
           <Text> {obj.reason} </Text>
           </Alert>}
         </Stack>
