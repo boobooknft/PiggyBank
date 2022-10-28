@@ -184,24 +184,6 @@ const Home = () => {
             </Title>
             </Group>
             </MediaQuery>
-            {/* <Paper p="40px"
-             mx="xl">
-            <List
-              spacing="md"
-              size="lg"
-              center
-              icon={
-                <ThemeIcon color="#1098AD" size={18} radius="xl">
-                  <ChevronRight size={16} />
-                </ThemeIcon>
-              }
-            >
-              <List.Item>Connect your wallet to get started</List.Item>
-              <List.Item>Step 2. Enter opening deposit amount</List.Item>
-              <List.Item>Step 3. Choose release date</List.Item>
-              <List.Item>Step 4. Mint time-locked Eth NFT</List.Item>
-            </List>
-            </Paper>      */}
             {!faq && 
               <Button mt="100px"
               color= 'gray.6'
