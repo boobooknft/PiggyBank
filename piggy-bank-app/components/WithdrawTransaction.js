@@ -88,7 +88,7 @@ const WithdrawTransaction = ({selectedRowId, setIsWithdrawn, setWithdrawHash, se
       </Button>
     </Stack>
     {error && isRowSelected && (
-      <Alert title="Error" mt="xl">
+      <Alert title="Error" my="xl">
       <Text> {obj.reason} </Text>
       </Alert> 
     )}

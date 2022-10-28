@@ -127,7 +127,7 @@ const TransferTransactionUseContract = ({selectedRowId, setTxnHash}) => {
         </Button>
         </Stack>
         {error && (
-        <Alert title="Error" mt="xl">
+        <Alert title="Error" my="xl">
         <Text>An error occurred: {obj.reason} </Text>
         </Alert> 
       )}

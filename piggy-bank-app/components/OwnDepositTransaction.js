@@ -103,7 +103,7 @@ const OwnDepositTransaction = ({selectedRowId, setIsDeposited, setDepositHash, s
     </Button>    
     </Stack>   
       {error && isRowSelected && (
-        <Alert title="Error" mt="xl">
+        <Alert title="Error" my="xl">
         <Text>An error occurred: {obj.reason} </Text>
         </Alert> 
       )}
