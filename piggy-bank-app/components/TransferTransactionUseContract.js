@@ -125,12 +125,13 @@ const TransferTransactionUseContract = ({selectedRowId, setTxnHash}) => {
         {isStarted && isLoading && 'Transfering NFT'}
         {!isLoading && !isStarted && 'Transfer NFT'}
         </Button>
-        </Stack>
+        
         {error && (
         <Alert title="Error" mt="xl">
         <Text>An error occurred: {obj.reason} </Text>
         </Alert> 
       )}
+      </Stack>
     </div>
   )
 }
