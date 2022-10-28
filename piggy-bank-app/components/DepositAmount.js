@@ -4,7 +4,9 @@ import { Input } from '@mantine/core'
 const DepositAmount = ({depositHandler}) => {
 
   return (
-    <Input mt="20px" onChange={depositHandler} className = "input" placeholder="Enter amount to deposit..."/>
+    <Input.Wrapper id="deposit-amount" label="Deposit Amount">
+    <Input id="deposit-amount" onChange={depositHandler} className = "input" placeholder="e.g 0.01 Eth...."/>
+    </Input.Wrapper>
   )
 }
 

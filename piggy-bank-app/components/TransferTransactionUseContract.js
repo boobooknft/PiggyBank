@@ -60,6 +60,24 @@ const TransferTransactionUseContract = ({selectedRowId, setTxnHash}) => {
             },
           }),
         })
+      } else if(selectedRowId == null || undefined){
+        showNotification({
+          message: "Please select Token",
+          title: "Invalid Token Id",
+          styles: (theme) => ({
+            root: {
+              backgroundColor: theme.colors.cyan[7],
+              borderColor: theme.colors.cyan[7],
+              '&::before': { backgroundColor: theme.colors.gray[0] },
+            },
+            title: {color: theme.white},
+            description: { color: theme.white},
+            closeButton: {
+              color: theme.white,
+              '&:hover': {backgroundColor: theme.colors.cyan[3]},
+            },
+          }),
+        })
       } else etherjs() }
       
     const etherjs = async () => {
@@ -90,7 +108,9 @@ const TransferTransactionUseContract = ({selectedRowId, setTxnHash}) => {
         order={5}
         align="center" 
         >Selected Token Id: {selectedRowId} </Title>
-        <Input placeholder="0xAeFF...b78C" onChange={inputHandler}/>
+        <Input.Wrapper id="transer" label="Address" >
+        <Input id="transfer" placeholder="e.g. 0xAeFF...or destination.eth" onChange={inputHandler}/>
+        </Input.Wrapper>
         <Button
         my="10px"
         onClick={() => onClickHandler()}

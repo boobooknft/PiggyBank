@@ -235,7 +235,7 @@ const Home = () => {
                   sx={(theme) => ({ backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] })
                   }>
                   <Title order={2}>
-                    Minting Eth Bank
+                    Minting PiggyBank
                   </Title>
                   <Text>
                     {totalSupplyData} total NFTs minted! 
@@ -291,6 +291,9 @@ const Home = () => {
                     disabled={isMintLoading || isMintStarted}
                     data-mint-loading={isMintLoading}
                     data-mint-started={isMintStarted}
+                    sx={{
+                      '&[disabled]': { color: 'gray' },
+                    }}
                     >
                       {isMintLoading && 'Waiting for approval'}
                       {isMintStarted && 'Minting'}
@@ -332,7 +335,7 @@ const Home = () => {
                           <p>
                           View on{' '}
                             <Anchor
-                              href={`https://testnets.opensea.io/assets/${txData?.to}/`}
+                              href={`https://testnets.opensea.io/assets/goerli/${txData?.to}/`}
                               target="_blank"
                             >
                               Opensea

@@ -4,7 +4,9 @@ import { Input } from '@mantine/core'
 const TokenID = ( {selectedRowIdHandler} ) => {
 
   return (
-    <Input onChange={selectedRowIdHandler} className = "input" placeholder='Enter Token ID...'/>
+    <Input.Wrapper id="token-id" label="Token Id">
+    <Input id="token-id" onChange={selectedRowIdHandler} className = "input" placeholder='e.g. 1...'/>
+    </Input.Wrapper>
   )
 }
 
