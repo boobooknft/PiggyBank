@@ -235,7 +235,7 @@ const Home = () => {
                   sx={(theme) => ({ backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] })
                   }>
                   <Title order={2}>
-                    Minting PiggyBank
+                    Mint PiggyBank
                   </Title>
                   <Text>
                     {totalSupplyData} total NFTs minted! 
