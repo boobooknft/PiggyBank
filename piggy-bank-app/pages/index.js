@@ -302,7 +302,7 @@ const Home = () => {
                     </Button>
                   )}
                 </Stack>   
-                  <div style={{ flex: '0 0 auto' }} mb="40px">
+                  <div style={{ flex: '0 0 auto' }} pb="50px">
                     <FlipCard>
                       <FrontCard isCardFlipped={isMinted}>
                         <Image
