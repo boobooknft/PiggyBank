@@ -175,7 +175,7 @@ const Home = () => {
             Why not lock it up for a bit...
             </Title>            
             <Title order={3} italic>
-            PiggyBank allows you to store your time locked Eth in a transferable NFT
+            PiggyBank allows you to store Eth in a time locked, transferable NFT
             </Title>
             <Title 
               order={3}
