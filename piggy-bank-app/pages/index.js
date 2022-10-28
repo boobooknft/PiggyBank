@@ -21,21 +21,17 @@ import {
   Stack,
   Paper,
   Anchor,
-  List,
-  ThemeIcon,
-  UnstyledButton,
   MediaQuery
   } from '@mantine/core'
 import { Calendar } from '@mantine/dates'
 import { showNotification } from '@mantine/notifications'
 import { format } from 'date-fns'
 import FAQAccordion from '../components/FAQAccordion'
-import { ChevronRight } from 'tabler-icons-react'
 
 
 const Home = () => {
   
-  const [totalMinted, setTotalMinted] = useState(0)
+  // const [totalMinted, setTotalMinted] = useState(0)
 
   const [value, setValue] = useState(new Date())
   const [initialDeposit, setInitialDeposit] = useState('0')
@@ -81,7 +77,7 @@ const Home = () => {
   // Setting the users initial deposit when minting the eth bank
 
   const contractConfig = {
-    addressOrName:'0x11A06e5a0B9e01170eA5dF279A1342af079F5a68',
+    addressOrName:'0x819F7f9290Eb5c8d7E8A2d3faAdB9d05017Fb00D',
     contractInterface: contractInterface,
   }
 
@@ -122,11 +118,11 @@ const Home = () => {
 
   const totalSupplyData = parseInt(supplyData)
 
-  useEffect(() => {
-    if (totalSupplyData) {
-      setTotalMinted(totalSupplyData);
-    }
-  }, [totalSupplyData])
+  // useEffect(() => {
+  //   if (totalSupplyData) {
+  //     setTotalMinted(totalSupplyData);
+  //   }
+  // }, [totalSupplyData])
 
   const ethDepositHandler = () => {
     if (Number(initialDeposit) < 0.005) {

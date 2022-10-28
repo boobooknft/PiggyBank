@@ -26,7 +26,7 @@ const OwnDepositTransaction = ({selectedRowId, setIsDeposited, setDepositHash, s
     }
 
     const contractConfig = {
-      addressOrName:'0x11A06e5a0B9e01170eA5dF279A1342af079F5a68',
+      addressOrName:'0x819F7f9290Eb5c8d7E8A2d3faAdB9d05017Fb00D',
       contractInterface: contractInterface,
     }
 
