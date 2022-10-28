@@ -88,7 +88,7 @@ const OwnDepositTransaction = ({selectedRowId, setIsDeposited, setDepositHash, s
       >Selected Token Id: {selectedRowId} </Title>
     <DepositAmount depositHandler={depositHandler} />
     <Button position="center"
-      mt="20px"
+      my="20px"
       onClick={() => deposit?.()}
       disabled={isDepositStarted || isDepositLoading}
       data-deposit-loading={isDepositLoading}

@@ -73,7 +73,7 @@ const WithdrawTransaction = ({selectedRowId, setIsWithdrawn, setWithdrawHash, se
       align="center" 
       >Selected Token Id: {selectedRowId} </Title>
       <Button 
-        mt="sm"
+        my="20px"
         onClick={withdraw}
         data-withdraw-loading={isWithdrawLoading}
         data-withdraw-started={isWithdrawStarted}

@@ -286,7 +286,7 @@ const Home = () => {
                 )}
                   {!isMinted && (
                     <Button
-                    my="10px"
+                    my="20px"
                     onClick={() => mint?.()}
                     disabled={isMintLoading || isMintStarted}
                     data-mint-loading={isMintLoading}

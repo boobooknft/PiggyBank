@@ -22,7 +22,7 @@ import DepositAmount from './DepositAmount'
 const ElseDepositTransaction = () => {
 
     const [initialDeposit, setInitialDeposit] = useState ('0')
-    const [selectedRowId,setSelectedRowId] = useState(null)
+    const [selectedRowId,setSelectedRowId] = useState('')
     const [isRowSelected, setIsRowSelected] = useState(false)
 
     const selectedRowIdHandler = event => {
@@ -71,10 +71,10 @@ const ElseDepositTransaction = () => {
 
         useEffect(()=>{
           const rowSelect = () => {
-            if(selectedRowId >= 0 && selectedRowId !== '' || null){
+            if(selectedRowId >= 0 && (selectedRowId !== '')){
               setIsRowSelected(true)
             } else {
-              if(selectedRowId == '' || null){
+              if(selectedRowId == ''){
                 setIsRowSelected(false)
               }
             }
@@ -96,7 +96,7 @@ const ElseDepositTransaction = () => {
           <TokenID selectedRowIdHandler={selectedRowIdHandler}/>
           <DepositAmount depositHandler={depositHandler}/>
           <Button justify="stretch"
-            mt="20px"
+            my="20px"
             onClick={() => deposit?.()}
             disabled={isDepositStarted || isDepositLoading}
             data-deposit-loading={isDepositLoading}

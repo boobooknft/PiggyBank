@@ -112,7 +112,7 @@ const TransferTransactionUseContract = ({selectedRowId, setTxnHash}) => {
         <Input id="transfer" placeholder="e.g. 0xAeFF...or destination.eth" onChange={inputHandler}/>
         </Input.Wrapper>
         <Button
-        my="10px"
+        my="20px"
         onClick={() => onClickHandler()}
         disabled={isLoading}
         data-nfttransfer-loading={isLoading}
