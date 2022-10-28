@@ -222,14 +222,14 @@ const Home = () => {
                 />
                 </Paper>
               <Button 
-                mt="20px"
+                my="20px"
                 onClick={calendarHandler}>
                   Next
               </Button>
             </Stack>
           )}
           {isConnected && active === "mintPage" && (
-              <Group>
+              <Group flex-wrap style={{ justifyContent: "center"}}>
                   <Stack 
                   spacing="sm" 
                   sx={(theme) => ({ backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] })
