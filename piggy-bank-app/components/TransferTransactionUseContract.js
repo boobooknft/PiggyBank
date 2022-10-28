@@ -101,8 +101,8 @@ const TransferTransactionUseContract = ({selectedRowId, setTxnHash}) => {
 
 
   return (
-    <div pb="30px">
-        <Stack>
+    <div>
+        <Stack pb="40px">
         <Title
         mt="20px" 
         order={5}
@@ -127,7 +127,7 @@ const TransferTransactionUseContract = ({selectedRowId, setTxnHash}) => {
         </Button>
         </Stack>
         {error && (
-        <Alert title="Error" my="xl">
+        <Alert title="Error" mt="xl">
         <Text>An error occurred: {obj.reason} </Text>
         </Alert> 
       )}

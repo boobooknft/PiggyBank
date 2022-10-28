@@ -12,7 +12,6 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { ConnectKitButton } from 'connectkit'
 import Link from 'next/link'
-import { MantineLogo } from '@mantine/ds';
 
 
 const HEADER_HEIGHT = 60;
