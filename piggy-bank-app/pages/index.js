@@ -297,7 +297,7 @@ const Home = () => {
                     >
                       {isMintLoading && 'Waiting for approval'}
                       {isMintStarted && 'Minting'}
-                      {!isMintLoading && !isMintStarted && 'Confirm Open Account'}
+                      {!isMintLoading && !isMintStarted && 'Confirm Mint Piggy Bank'}
                     </Button>
                   )}
                 </Stack>   
