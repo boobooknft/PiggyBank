@@ -1,0 +1,44 @@
+{
+  "name": "emrin-bank-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "compile": "solcjs --abi --include-path node_modules/ --base-path . blockchain/contracts/EmrinEthBank.sol --output-dir blockchain/build"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/server": "^11.10.0",
+    "@emotion/styled": "^11.10.4",
+    "@mantine/core": "^5.5.6",
+    "@mantine/dates": "^5.5.6",
+    "@mantine/ds": "^5.5.6",
+    "@mantine/hooks": "^5.5.6",
+    "@mantine/next": "^5.5.6",
+    "@mantine/notifications": "^5.5.6",
+    "@openzeppelin/contracts": "^4.7.3",
+    "connectkit": "^0.0.2",
+    "date-fns": "^2.29.3",
+    "dayjs": "^1.11.5",
+    "dotenv": "^16.0.3",
+    "ethers": "^5.7.0",
+    "framer-motion": "^7.3.5",
+    "next": "12.2.5",
+    "next-auth": "^4.12.3",
+    "react": "^18.2.0",
+    "react-calendar": "^3.8.0",
+    "react-dom": "^18.2.0",
+    "react-table": "^7.8.0",
+    "solc": "^0.8.16",
+    "tabler-icons-react": "^1.55.0",
+    "wagmi": "^0.6.4"
+  },
+  "devDependencies": {
+    "eslint": "8.23.0",
+    "eslint-config-next": "12.2.5",
+    "truffle-plugin-verify": "^0.5.28"
+  }
+}
