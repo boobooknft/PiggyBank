@@ -235,10 +235,10 @@ const Home = () => {
                   sx={(theme) => ({ backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] })
                   }>
                   <Title order={2}>
-                    Mint PiggyBank
+                    Mint Piggy Bank
                   </Title>
                   <Text>
-                    Total supply of Piggy Banks: {totalSupplyData}
+                    Total Supply of Piggy Banks: {totalSupplyData}
                   </Text>
                   {!isMinted && (
                     <>
