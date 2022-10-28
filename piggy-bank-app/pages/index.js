@@ -238,7 +238,7 @@ const Home = () => {
                     Mint PiggyBank
                   </Title>
                   <Text>
-                    {totalSupplyData} total NFTs minted! 
+                    Total supply of Piggy Banks: {totalSupplyData}
                   </Text>
                   {!isMinted && (
                     <>
