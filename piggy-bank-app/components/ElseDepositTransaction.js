@@ -71,10 +71,10 @@ const ElseDepositTransaction = () => {
 
         useEffect(()=>{
           const rowSelect = () => {
-            if(selectedRowId >= 0 && selectedRowId !== ''){
+            if(selectedRowId >= 0 && selectedRowId !== '' || null){
               setIsRowSelected(true)
             } else {
-              if(selectedRowId == ''){
+              if(selectedRowId == '' || null){
                 setIsRowSelected(false)
               }
             }
