@@ -101,7 +101,7 @@ const TransferTransactionUseContract = ({selectedRowId, setTxnHash}) => {
 
 
   return (
-    <div mb="30px">
+    <div pb="30px">
         <Stack>
         <Title
         mt="20px" 

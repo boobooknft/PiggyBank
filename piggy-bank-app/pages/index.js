@@ -182,6 +182,7 @@ const Home = () => {
             </MediaQuery>
             {!faq && 
               <Button mt="100px"
+              mb="40px"
               color= 'gray.6'
               onClick={() => setFaq(true)}
               size="lg"
@@ -301,7 +302,7 @@ const Home = () => {
                     </Button>
                   )}
                 </Stack>   
-                  <div style={{ flex: '0 0 auto' }}>
+                  <div style={{ flex: '0 0 auto' }} mb="40px">
                     <FlipCard>
                       <FrontCard isCardFlipped={isMinted}>
                         <Image
