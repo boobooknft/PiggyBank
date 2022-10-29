@@ -51,8 +51,8 @@ export const ApplicationContainer = ({children}) => {
             </Footer>    
         }
       >
-        <Group direction="column" mt="30px" position="center" align="center">
-            <Group style={{width: "900px"}} mx="auto" direction="column" position="center">
+        <Group direction="column" position="center" align="center">
+            <Group style={{width: "900px"}} mt="140px" direction="column" position="center">
              {children}
             </Group>
         </Group>
