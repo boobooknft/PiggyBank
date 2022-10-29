@@ -151,7 +151,9 @@ const TransferTokens = () => {
           {!hasTokens && (
             <>
             {!showTable && (
-                <div> no Tokens to show</div>
+              <Title order={4}>
+                No Tokens Available
+              </Title>
             )} 
             </>
         )}

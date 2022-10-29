@@ -126,7 +126,7 @@ const Nav = () => {
   });
 
   return (
-    <Header height={HEADER_HEIGHT} className={classes.root}>
+    <Header height={HEADER_HEIGHT} className={classes.root} position='sticky'>
       <Container className={classes.header}>
         <Group style={{width: "1100px"}} mx="auto">
           <Title order={2}>
