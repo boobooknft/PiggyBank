@@ -22,10 +22,15 @@ export const ApplicationContainer = ({children}) => {
                 background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
                 paddingTop: theme.spacing.xl * 2,
                 paddingBottom: theme.spacing.xl * 2,
+            },
+            header: {
+                position: 'sticky',
+                top: '0px',
             }
         }}
         header={
             <Nav/>
+            
         }
         footer={
             <Footer p="sm">
