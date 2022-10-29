@@ -18,7 +18,7 @@ const FAQAccordion = () => {
             </Accordion.Item>
 
             <Accordion.Item
-            value = "interest">
+            value = "royalties">
             <Accordion.Control>Are there any fees or royalties?</Accordion.Control>
             <Accordion.Panel>No. Mintning, depositing, withdrawing and transferring is free. You will only need to pay gas (transaction fee).
                 However, there is a minimum deposit amount required when minting a piggy bank.
