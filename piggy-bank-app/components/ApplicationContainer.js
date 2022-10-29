@@ -5,6 +5,7 @@ import {
     Group,
     Footer,
     Anchor, 
+    Header
     } from '@mantine/core'
 import Nav from '../components/Nav'
 
@@ -29,8 +30,9 @@ export const ApplicationContainer = ({children}) => {
             }
         }}
         header={
-            <Nav/>
-            
+            <Header>
+                <Nav/>
+            </Header>
         }
         footer={
             <Footer p="sm">

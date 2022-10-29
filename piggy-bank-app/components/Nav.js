@@ -12,6 +12,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { ConnectKitButton } from 'connectkit'
 import Link from 'next/link'
+import { useState } from 'react'
 
 
 const HEADER_HEIGHT = 60;
@@ -89,39 +90,35 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+
+import React from 'react'
+import { Links } from './Links'
+
 const Nav = () => {
-  const { classes } = useStyles();
+  const { classes, cx } = useStyles();
   const [opened, { toggle, close }] = useDisclosure(false);
-  const Links = [
-    {
-      "link": "/",
-      "label": "Mint Eth Bank"
-    },
-    {
-      "link": "/deposit",
-      "label": "Deposit Eth"
-    },
-    {
-      "link": "/withdraw",
-      "label": "Withdraw Eth"
-    },
-    {
-      "link": "/transfer",
-      "label": "Transfer NFT"
-    }
-  ]
+  const [active, setActive] = useState(Links[0].link);
+
+
   const items = Links.map((link) => {     
     return (
-      <Link 
+      <Link
         key={link.label}
         href={link.link}
         passHref 
-      >
-      <a className={classes.link} 
-      >
-        {link.label}
-      </a>
-      </Link>
+       >
+        <a
+        className={cx(classes.link, { [classes.linkActive]: active === link.link })} 
+          onClick={(event) => {
+          // event.preventDefault();
+          setActive(link.link);
+          close();
+        }}
+        >
+          {link.label}
+        </a>
+        </Link>
+      
     );
   });
 
@@ -151,5 +148,4 @@ const Nav = () => {
     </Header>
   );
 }
-
 export default Nav
