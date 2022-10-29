@@ -276,14 +276,18 @@ const Home = () => {
                     </>
                   )}
                   {mintError && (
-                  <p>
-                    Error: {mintError.message}
-                  </p>
+                    <Alert title="Error" mt="xl" mb="40px">
+                  <Text>
+                    {mintError.message}
+                  </Text>
+                  </Alert>
                 )}
                 {txError && (
-                  <p>
-                    Error: {txError.message}
-                  </p>    
+                  <Alert title="Error" mt="xl" mb="40px">
+                  <Text>
+                    {txError.message}
+                  </Text>
+                  </Alert>    
                 )}
                   {!isMinted && (
                     <Button
