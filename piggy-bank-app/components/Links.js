@@ -1,7 +1,7 @@
 export const Links = [
   {
     "link": "/",
-    "label": "Mint Eth Bank"
+    "label": "Mint Piggy Bank"
   },
   {
     "link": "/deposit",
