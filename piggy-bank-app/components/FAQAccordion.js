@@ -16,6 +16,14 @@ const FAQAccordion = () => {
             <Accordion.Panel>Anyone who wants non-custodial “forced savings” or wants to being able to gift Eth for the future.
                 Think “Trust Fund” and “Term Deposit” (except no trustees, it’s completely non-custodial and you don’t earn any interest on it ¯\_(ツ)_/¯ ).</Accordion.Panel>
             </Accordion.Item>
+
+            <Accordion.Item
+            value = "interest">
+            <Accordion.Control>Are there any fees or royalties?</Accordion.Control>
+            <Accordion.Panel>No. Mintning, depositing, withdrawing and transferring is free. You will only need to pay gas (transaction fee).
+                However, there is a minimum deposit amount required when minting a piggy bank.
+            </Accordion.Panel>
+            </Accordion.Item>
         
             <Accordion.Item
             value = "interest">
