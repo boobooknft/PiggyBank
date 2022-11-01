@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { 
   useAccount, 
   usePrepareContractWrite, 
@@ -28,6 +28,8 @@ import { Calendar } from '@mantine/dates'
 import { showNotification } from '@mantine/notifications'
 import { format } from 'date-fns'
 import FAQAccordion from '../components/FAQAccordion'
+import { useDebounce } from 'use-debounce'
+
 
 
 const Home = () => {
@@ -38,6 +40,7 @@ const Home = () => {
   const [initialDeposit, setInitialDeposit] = useState('0')
   const [active, setActive] = useState("ethDeposit")
   const [faq, setFaq] = useState(false)
+  
 
   const { isConnected } = useAccount()
 
@@ -126,7 +129,7 @@ const Home = () => {
   // }, [totalSupplyData])
 
   const ethDepositHandler = () => {
-    if (Number(initialDeposit) < 0.005) {
+    if (Number(initialDeposit) < 0.005 || Number(initialDeposit) <.005 ) {
         showNotification({
           message: "Minimum 0.005 ETH opening deposit required",
           title: "Not Enough ETH",

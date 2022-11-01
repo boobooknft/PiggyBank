@@ -34,6 +34,7 @@
     "react-table": "^7.8.0",
     "solc": "^0.8.16",
     "tabler-icons-react": "^1.55.0",
+    "use-debounce": "^8.0.4",
     "wagmi": "^0.6.4"
   },
   "devDependencies": {
