@@ -4,7 +4,7 @@ import { Input } from '@mantine/core'
 const IntialDepositAmount = (props) => {
   
   return (
-      <Input onChange={(e) => (props.initialDeposit(e.target.value))} type="number" step="1e18" placeholder="Minimum 0.005 ETH Deposit" />     
+      <Input onChange={(e) => (props.initialDeposit(e.target.value))} type="text" step="1e18" placeholder="Minimum 0.005 ETH Deposit" />     
   )
 }
 
