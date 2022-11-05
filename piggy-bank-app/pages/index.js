@@ -4,7 +4,9 @@ import {
   usePrepareContractWrite, 
   useContractWrite,
   useWaitForTransaction,
-  useContractRead
+  useContractRead,
+  useContract,
+  useSigner
  } from 'wagmi'
 import contractInterface from '../utils/contract-abi.json'
 import { ethers } from 'ethers'
@@ -43,6 +45,7 @@ const Home = () => {
   
 
   const { isConnected } = useAccount()
+  // const { data: signer } = useSigner() 
 
   const onChange = (newValue) => {
     setValue(newValue)
@@ -76,6 +79,7 @@ const Home = () => {
     }
   }
 
+  
   console.log(timeStamp)
 
   // Setting the users initial deposit when minting the eth bank
@@ -84,6 +88,12 @@ const Home = () => {
     addressOrName:'0x819F7f9290Eb5c8d7E8A2d3faAdB9d05017Fb00D',
     contractInterface: contractInterface,
   }
+
+  // useContract test
+  // const contract = useContract({
+  //   ...contractConfig,
+  //   signerOrProvider: signer
+  // })
 
   const { config, error } = usePrepareContractWrite({
     ...contractConfig,
@@ -102,6 +112,24 @@ const Home = () => {
     error: mintError,
   } = useContractWrite(config)
 
+  // test using only useContractWrite for initial deposit amount
+  // const { 
+  //   data: mintData,
+  //   write: mint, 
+  //   isLoading: isMintLoading,
+  //   isSuccess: isMintStarted,
+  //   error: mintError,
+  // } = useContractWrite({
+  //   ...contractConfig,
+  //   mode: 'recklesslyUnprepared',
+  //   functionName: 'formingDiamondHands',
+  //   args: [timeStamp], // may need to add debounce here as this performs an RPC request on every args change
+  //   overrides: {
+  //     value: ethers.utils.parseEther(initialDeposit)
+  //   }
+  // })
+
+   // don't change beyond here for fixing up initial deposit amount
   const { data: supplyData } = useContractRead({
     ...contractConfig,
     functionName: 'totalSupply',
@@ -205,7 +233,7 @@ const Home = () => {
               >
                 Enter Opening Amount
               </Title>
-              <InitialDepositAmount initialDeposit={setInitialDeposit} />
+              <InitialDepositAmount setInitialDeposit={setInitialDeposit} />
                 <Button 
                 onClick={ethDepositHandler}
                 >
