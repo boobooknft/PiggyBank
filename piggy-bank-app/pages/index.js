@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { 
   useAccount, 
   usePrepareContractWrite, 
@@ -24,11 +24,13 @@ import {
   Paper,
   Anchor,
   MediaQuery,
-  Alert
+  Alert,
+  Input
   } from '@mantine/core'
 import { Calendar } from '@mantine/dates'
 import { showNotification } from '@mantine/notifications'
-import { format } from 'date-fns'
+import { useForm } from '@mantine/form'
+import { format, set } from 'date-fns'
 import FAQAccordion from '../components/FAQAccordion'
 import { useDebounce } from 'use-debounce'
 
@@ -36,8 +38,6 @@ import { useDebounce } from 'use-debounce'
 
 const Home = () => {
   
-  // const [totalMinted, setTotalMinted] = useState(0)
-
   const [value, setValue] = useState(new Date())
   const [initialDeposit, setInitialDeposit] = useState('0')
   const [active, setActive] = useState("ethDeposit")
@@ -50,7 +50,7 @@ const Home = () => {
   const onChange = (newValue) => {
     setValue(newValue)
   }
-
+    
   const date = Date.now() / 1000
   const timeStamp = Math.round(value.getTime()) / 1000
 
@@ -79,7 +79,7 @@ const Home = () => {
     }
   }
 
-  
+
   console.log(timeStamp)
 
   // Setting the users initial deposit when minting the eth bank
@@ -89,47 +89,19 @@ const Home = () => {
     contractInterface: contractInterface,
   }
 
-  // useContract test
-  // const contract = useContract({
-  //   ...contractConfig,
-  //   signerOrProvider: signer
-  // })
-
-  const { config, error } = usePrepareContractWrite({
-    ...contractConfig,
-    functionName: 'formingDiamondHands',
-    args: [timeStamp], // may need to add debounce here as this performs an RPC request on every args change
-    overrides: {
-      value: ethers.utils.parseEther(initialDeposit)
-    }
-  })
-
-  const { 
+    const { 
     data: mintData,
     write: mint, 
     isLoading: isMintLoading,
     isSuccess: isMintStarted,
     error: mintError,
-  } = useContractWrite(config)
-
-  // test using only useContractWrite for initial deposit amount
-  // const { 
-  //   data: mintData,
-  //   write: mint, 
-  //   isLoading: isMintLoading,
-  //   isSuccess: isMintStarted,
-  //   error: mintError,
-  // } = useContractWrite({
-  //   ...contractConfig,
-  //   mode: 'recklesslyUnprepared',
-  //   functionName: 'formingDiamondHands',
-  //   args: [timeStamp], // may need to add debounce here as this performs an RPC request on every args change
-  //   overrides: {
-  //     value: ethers.utils.parseEther(initialDeposit)
-  //   }
-  // })
-
-   // don't change beyond here for fixing up initial deposit amount
+  } = useContractWrite({
+    mode: 'recklesslyUnprepared',  
+    ...contractConfig,
+    functionName: 'formingDiamondHands',
+    })
+  
+   
   const { data: supplyData } = useContractRead({
     ...contractConfig,
     functionName: 'totalSupply',
@@ -175,7 +147,9 @@ const Home = () => {
             },
 
           }),
-        })
+          
+        });
+        console.log(initialDeposit)
     } else {
       setActive("calendar")
     }
@@ -226,6 +200,7 @@ const Home = () => {
           </div>
         )}
           {isConnected && active === "ethDeposit" && (
+            <MediaQuery largerThan="sm" styles={{width: 500}}>
             <Stack>
               <Title 
               order={2}
@@ -233,13 +208,19 @@ const Home = () => {
               >
                 Enter Opening Amount
               </Title>
-              <InitialDepositAmount setInitialDeposit={setInitialDeposit} />
-                <Button 
-                onClick={ethDepositHandler}
+              <InitialDepositAmount initialDeposit={setInitialDeposit} />
+                <Button onClick={ethDepositHandler}
                 >
                   Next
                 </Button>
+              {/* {fixError && (
+                <Alert>
+                  <Text>{error.message}</Text>
+                </Alert>
+              )} */}
             </Stack>
+            </MediaQuery>
+            
           )}
           {isConnected && active === "calendar" && (
             <Stack >
@@ -307,6 +288,12 @@ const Home = () => {
                     </Group>
                     </>
                   )}
+                  <Group style={{justifyContent: "center", width: 350}} align="center">
+                  {/* {fixError && (
+                    <Alert>
+                      <Text>{error.message}</Text>
+                    </Alert>
+                  )} */}
                   {mintError && (
                     <Alert title="Error" mt="xl" mb="40px">
                   <Text>
@@ -321,16 +308,24 @@ const Home = () => {
                   </Text>
                   </Alert>    
                 )}
+                </Group>
+                
                   {!isMinted && (
                     <Button
-                    my="20px"
-                    onClick={() => mint?.()}
-                    disabled={isMintLoading || isMintStarted}
-                    data-mint-loading={isMintLoading}
-                    data-mint-started={isMintStarted}
-                    sx={{
-                      '&[disabled]': { color: 'gray' },
-                    }}
+                      my="20px"
+                      onClick={() => 
+                        mint({
+                          recklesslySetUnpreparedArgs: [timeStamp],
+                          recklesslySetUnpreparedOverrides: {
+                            value: ethers.utils.parseEther(initialDeposit)
+                          }
+                        })}
+                      disabled={isMintLoading || isMintStarted}
+                      data-mint-loading={isMintLoading}
+                      data-mint-started={isMintStarted}
+                      sx={{
+                        '&[disabled]': { color: 'gray' },
+                      }}
                     >
                       {isMintLoading && 'Waiting for approval'}
                       {isMintStarted && 'Minting'}
@@ -382,9 +377,9 @@ const Home = () => {
                       </BackCard>
                     </FlipCard>
                   </div> 
-              </Group>                
-          )}
-     </Group>     
+              </Group>             
+            )}
+          </Group>     
     </Container>
 
     {!isConnected && faq && (

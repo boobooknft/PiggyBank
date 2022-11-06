@@ -54,11 +54,11 @@ const TransferTokens = () => {
                 const tokenJSONData = await JSON.parse(JSON.stringify(tokens));
                 const tokenHexArray = await tokenJSONData?.map(a=>a.hex);
                 const tokensArray = [];
-                for(var i = 0; i < tokenHexArray.length; i++){
+                for(const i = 0; i < tokenHexArray.length; i++){
                     tokensArray.push(parseInt(tokenHexArray[i]));
                 };
                 const balanceArray = [];
-                for (var i of tokensArray) {
+                for (const i of tokensArray) {
                     let accountBalance = await contract.getAccountBalance(i);
                     balanceArray.push(accountBalance);
                 };
@@ -110,11 +110,6 @@ const TransferTokens = () => {
         
     },[finalTokenDetails])
 
-    
-    // useEffect(() => {
-    //     setTransferTxData(trnsTxData)
-    //   }, [trnsTxData])
-  
       const { 
         isSuccess: transferTxSuccess,
         error: transferTxError,

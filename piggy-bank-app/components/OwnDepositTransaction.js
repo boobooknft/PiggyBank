@@ -85,7 +85,7 @@ const OwnDepositTransaction = ({selectedRowId, setIsDeposited, setDepositHash, s
       order={5}
       align="center" 
       >Selected Token Id: {selectedRowId} </Title>
-    <DepositAmount depositHandler={depositHandler} />
+    <DepositAmount setInitialDeposit={setInitialDeposit} />
     <Button position="center"
       my="20px"
       onClick={() => deposit?.()}
