@@ -154,6 +154,9 @@ const Home = () => {
       setActive("calendar")
     }
   }
+
+  const mintObj = JSON.parse(JSON.stringify(mintError))
+  const txnObj = JSON.parse(JSON.stringify(txError))
      
   return (
     <>
@@ -200,7 +203,7 @@ const Home = () => {
           </div>
         )}
           {isConnected && active === "ethDeposit" && (
-            <MediaQuery largerThan="sm" styles={{width: 500}}>
+            <MediaQuery largerThan="sm" styles={{width: 300}}>
             <Stack>
               <Title 
               order={2}
@@ -213,11 +216,6 @@ const Home = () => {
                 >
                   Next
                 </Button>
-              {/* {fixError && (
-                <Alert>
-                  <Text>{error.message}</Text>
-                </Alert>
-              )} */}
             </Stack>
             </MediaQuery>
             
@@ -297,14 +295,14 @@ const Home = () => {
                   {mintError && (
                     <Alert title="Error" mt="xl" mb="40px">
                   <Text>
-                    {mintError.message}
+                    {mintObj.reason}
                   </Text>
                   </Alert>
                 )}
                 {txError && (
                   <Alert title="Error" mt="xl" mb="40px">
                   <Text>
-                    {txError.message}
+                    {txnObj.reason}
                   </Text>
                   </Alert>    
                 )}

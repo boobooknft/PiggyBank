@@ -21,30 +21,31 @@ const OwnDepositTransaction = ({selectedRowId, setIsDeposited, setDepositHash, s
     const [initialDeposit, setInitialDeposit] = useState ('0')
     const [isRowSelected, setIsRowSelected] = useState(false)
 
-    const depositHandler = event => {
-        setInitialDeposit(event.target.value)
-    }
 
     const contractConfig = {
       addressOrName:'0x819F7f9290Eb5c8d7E8A2d3faAdB9d05017Fb00D',
       contractInterface: contractInterface,
     }
 
-    const { config, error } = usePrepareContractWrite({
-        ...contractConfig,
-        functionName: 'deposit',
-        args: [selectedRowId],
-        overrides: {
-          value: ethers.utils.parseEther(initialDeposit)
-        }
-      })
+    // const { config, error } = usePrepareContractWrite({
+    //     ...contractConfig,
+    //     functionName: 'deposit',
+    //     args: [selectedRowId],
+    //     overrides: {
+    //       value: ethers.utils.parseEther(initialDeposit)
+    //     }
+    //   })
     
       const { 
         data: depositData,
         write: deposit, 
         isLoading: isDepositLoading,
-        isSuccess: isDepositStarted
-      } = useContractWrite(config)
+        isSuccess: isDepositStarted,
+        error
+      } = useContractWrite({
+        ...contractConfig,
+        functionName: 'deposit'
+      })
 
       const { 
         isSuccess: txSuccess,
@@ -85,10 +86,16 @@ const OwnDepositTransaction = ({selectedRowId, setIsDeposited, setDepositHash, s
       order={5}
       align="center" 
       >Selected Token Id: {selectedRowId} </Title>
-    <DepositAmount setInitialDeposit={setInitialDeposit} />
+    <DepositAmount initialDeposit={setInitialDeposit} />
     <Button position="center"
       my="20px"
-      onClick={() => deposit?.()}
+      onClick={() => 
+        deposit({
+          recklesslySetUnpreparedArgs: selectedRowId,
+          recklesslySetUnpreparedOverrides: {
+            value: ethers.utils.parseEther(initialDeposit)
+          }
+        })}
       disabled={isDepositStarted || isDepositLoading}
       data-deposit-loading={isDepositLoading}
       data-deposit-started={isDepositStarted}
