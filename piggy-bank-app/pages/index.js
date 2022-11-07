@@ -287,27 +287,21 @@ const Home = () => {
                     </>
                   )}
                   <Group style={{justifyContent: "center", width: 350}} align="center">
-                  {/* {fixError && (
-                    <Alert>
-                      <Text>{error.message}</Text>
-                    </Alert>
-                  )} */}
                   {mintError && (
                     <Alert title="Error" mt="xl" mb="40px">
                   <Text>
-                    {mintObj.reason}
+                  An error occurred: {mintObj.reason}
                   </Text>
                   </Alert>
                 )}
                 {txError && (
                   <Alert title="Error" mt="xl" mb="40px">
                   <Text>
-                    {txnObj.reason}
+                  An error occurred: {txnObj.reason}
                   </Text>
                   </Alert>    
                 )}
                 </Group>
-                
                   {!isMinted && (
                     <Button
                       my="20px"
@@ -381,16 +375,18 @@ const Home = () => {
     </Container>
 
     {!isConnected && faq && (
-      <Container my="40px"
-      py="30px">
-      <Title align="center"
-                order={3}>
-                FAQ
-              </Title>
-        <FAQAccordion/>
+      <Container 
+        my="40px"
+        py="30px">
+          <Title 
+            align="center"
+            order={3}
+          >
+              FAQ
+          </Title>
+          <FAQAccordion/>
       </Container>
     )}
- 
     </>
   )
 }

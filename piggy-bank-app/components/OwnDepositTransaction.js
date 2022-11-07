@@ -65,7 +65,8 @@ const OwnDepositTransaction = ({selectedRowId, setIsDeposited, setDepositHash, s
           setTxData(txData)
         }, [depositData?.hash,txData])
 
-        const obj = JSON.parse(JSON.stringify(error))
+        const mintObj = JSON.parse(JSON.stringify(error))
+        const txnObj = JSON.parse(JSON.stringify(txError))
 
         useEffect(()=>{
           const rowSelect = () => {
@@ -107,10 +108,14 @@ const OwnDepositTransaction = ({selectedRowId, setIsDeposited, setDepositHash, s
       {isDepositLoading && 'Waiting for Approval'}
       {isDepositStarted && 'Depositing'}
     </Button>    
-    
       {error && isRowSelected && (
         <Alert title="Error" mt="xl" mb="40px">
-        <Text>An error occurred: {obj.reason} </Text>
+        <Text>An error occurred: {mintObj.reason} </Text>
+        </Alert> 
+      )}
+      {txError && isRowSelected && (
+        <Alert title="Error" mt="xl" mb="40px">
+        <Text>An error occurred: {txnObj.reason} </Text>
         </Alert> 
       )}
       </Stack>   
