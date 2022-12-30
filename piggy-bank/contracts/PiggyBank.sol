@@ -32,10 +32,23 @@ contract PiggyBank is ERC721, Ownable, ReentrancyGuard {
     initialDeposit = _initial;
   }
 
-  function formingDiamondHands(uint _readyTime) external payable {
+  // * Old version of the function
+  // function formingDiamondHands(uint _readyTime) external payable {
+  //   require(_readyTime > block.timestamp, "Choose a date in the future");
+  //   require(msg.value >= initialDeposit, "Opening deposit required");
+  //   accounts.push(Account(_readyTime, msg.value));
+  //   uint tokenId = accounts.length - 1;
+  //   _safeMint(msg.sender, tokenId);
+  //   tokenURI(tokenId);
+  // }
+
+  //* This function creates the NFT bank and accepts a tip for the contract owner for the service *//
+  function formingDiamondHands(uint _readyTime, uint tip) external payable {
     require(_readyTime > block.timestamp, "Choose a date in the future");
     require(msg.value >= initialDeposit, "Opening deposit required");
-    accounts.push(Account(_readyTime, msg.value));
+    uint _deposit = msg.value - tip;
+    tipJar += tip;
+    accounts.push(Account(_readyTime, _deposit));
     uint tokenId = accounts.length - 1;
     _safeMint(msg.sender, tokenId);
     tokenURI(tokenId);
@@ -71,8 +84,7 @@ contract PiggyBank is ERC721, Ownable, ReentrancyGuard {
     return accounts[_tokenId].readyTime;
   }
 
-  // metadata URI
-   
+  //* metadata URI *//
   function _baseURI() internal view virtual override returns(string memory) {
     return _baseTokenURI;
   }
@@ -89,7 +101,7 @@ contract PiggyBank is ERC721, Ownable, ReentrancyGuard {
         : "";   
   }
 
-  //List of Accounts by Owner Array
+  //* List of Accounts by Owner Array *//
   function getAccountsByOwner(address _owner) external view returns(uint[] memory){
     uint number = balanceOf(_owner);
     uint [] memory result = new uint[](number);
@@ -105,5 +117,13 @@ contract PiggyBank is ERC721, Ownable, ReentrancyGuard {
 
   function totalSupply() public view returns (uint256) {
     return accounts.length;
+  }
+
+  //* withdraw eth tips from contract to owner of contract *//
+  function emptyTipJar(uint amount) external onlyOwner {
+    require(tipJar >= amount, "Insufficient funds");
+    (bool success,) = payable(msg.sender).call{value: amount}("");
+    require(success, "receiver rejected ETH transfer");
+    tipJar -= amount;
   }
 }
