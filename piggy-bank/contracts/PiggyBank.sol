@@ -15,6 +15,7 @@ contract PiggyBank is ERC721, Ownable, ReentrancyGuard {
   using Strings for uint256;
   uint public initialDeposit = 0.005 ether;
   string private _baseTokenURI; 
+  uint public tipJar;
 
   event Withdrawn(string message, uint tokenId);
 
