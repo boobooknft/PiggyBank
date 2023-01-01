@@ -1,5 +1,5 @@
-const PiggyBank = artifacts.require("PiggyBank");
+const PiggyBank4 = artifacts.require("PiggyBank4");
 
 module.exports = function (deployer) {
-  deployer.deploy(PiggyBank);
+  deployer.deploy(PiggyBank4);
 };

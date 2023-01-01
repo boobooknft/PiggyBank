@@ -15,7 +15,7 @@ const { chains, provider } = configureChains(
 const client = createClient(
   getDefaultClient({
     autoConnect: false,
-    appName: "EmrinRemixTest4",
+    appName: "PiggyBank4",
     provider,
     chains,
   }),
@@ -38,9 +38,7 @@ function MyApp({ Component, pageProps }) {
           }} >
             <NotificationsProvider position="top-center">
             <ApplicationContainer>
-              
                   <Component {...pageProps} />
-              
             </ApplicationContainer>
             </NotificationsProvider>
         </ MantineProvider>

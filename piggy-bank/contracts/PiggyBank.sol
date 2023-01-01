@@ -6,11 +6,9 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-///
-/// @title 
-/// @dev 
-///
-contract PiggyBank is ERC721, Ownable, ReentrancyGuard {
+
+
+contract PiggyBank4 is ERC721, Ownable, ReentrancyGuard {
 
   using Strings for uint256;
   uint public initialDeposit = 0.005 ether;
@@ -26,7 +24,7 @@ contract PiggyBank is ERC721, Ownable, ReentrancyGuard {
 
   Account[] private accounts;
 
-  constructor() ERC721("PiggyBank","PIG"){}
+  constructor() ERC721("PiggyBank4","0INK"){}
 
   function setInitialDeposit(uint _initial) external onlyOwner {
     initialDeposit = _initial;

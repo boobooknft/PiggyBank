@@ -45,7 +45,6 @@ const Home = () => {
   
 
   const { isConnected } = useAccount()
-  // const { data: signer } = useSigner() 
 
   const onChange = (newValue) => {
     setValue(newValue)
