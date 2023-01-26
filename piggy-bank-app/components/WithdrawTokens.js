@@ -8,7 +8,7 @@ import {
 import contractInterface from '../utils/contract-abi.json'
 import { TokenTable } from './TokenTable'
 import { format } from 'date-fns'
-import { Loader, Text, Stack, Title, Anchor, Paper } from '@mantine/core'
+import { Loader, Text, Stack, Title, Anchor, Paper, MediaQuery } from '@mantine/core'
 import WithdrawTransaction from './WithdrawTransaction'
 
 
@@ -133,7 +133,7 @@ const WithdrawTokens = () => {
             setWithdrawHash={setWithdrawHash}
             setTxData={setTxData}
              />
-          </div>
+            </div>
         )}
           {!hasTokens && (
             <>
