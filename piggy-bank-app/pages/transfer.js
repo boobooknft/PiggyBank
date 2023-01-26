@@ -2,7 +2,6 @@ import React from 'react'
 import { 
   useAccount, 
  } from 'wagmi'
- import WithdrawTokens from '../components/WithdrawTokens'
  import {
   Title,
   Group

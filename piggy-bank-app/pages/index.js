@@ -1,15 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { 
-  useAccount, 
-  usePrepareContractWrite, 
+  useAccount,
   useContractWrite,
   useWaitForTransaction,
   useContractRead,
-  useContract,
-  useSigner
  } from 'wagmi'
 import contractInterface from '../utils/contract-abi.json'
-import { ethers } from 'ethers'
+import { ethers, BigNumber } from 'ethers'
 import InitialDepositAmount from '../components/InitialDepositAmount'
 import FlipCard, { BackCard, FrontCard } from '../components/FlipCard'
 import Image from 'next/image'
@@ -25,14 +22,15 @@ import {
   Anchor,
   MediaQuery,
   Alert,
-  Input
+  Modal,
+  TextInput,
+  MantineProvider
   } from '@mantine/core'
 import { Calendar } from '@mantine/dates'
 import { showNotification } from '@mantine/notifications'
-import { useForm } from '@mantine/form'
 import { format, set } from 'date-fns'
 import FAQAccordion from '../components/FAQAccordion'
-import { useDebounce } from 'use-debounce'
+
 
 
 
@@ -42,7 +40,22 @@ const Home = () => {
   const [initialDeposit, setInitialDeposit] = useState('0')
   const [active, setActive] = useState("ethDeposit")
   const [faq, setFaq] = useState(false)
+  const [tip, setTip] = useState("0")  
+  const [opened, setOpened] = useState(false)
+
+    // tip needs a value, it's either 0 or the value
+    // there's an issue with the deposit page also
+  const numInitialDeposit = Number(initialDeposit)
+  const numTip = Number(tip)
+  const numTotalOpeningAmount = numInitialDeposit + numTip
+  const totalOpeningAmount = String(numTotalOpeningAmount)
+  const sendTip = ethers.utils.parseEther(tip)
   
+
+  console.log(numInitialDeposit)
+  console.log(numTip)
+  console.log(numTotalOpeningAmount)
+  console.log(totalOpeningAmount)
 
   const { isConnected } = useAccount()
 
@@ -84,7 +97,7 @@ const Home = () => {
   // Setting the users initial deposit when minting the eth bank
 
   const contractConfig = {
-    addressOrName:'0x819F7f9290Eb5c8d7E8A2d3faAdB9d05017Fb00D',
+    addressOrName:'0x63177830e23Aac9Bd0AA908106265A05253B67e7',
     contractInterface: contractInterface,
   }
 
@@ -240,7 +253,7 @@ const Home = () => {
             </Stack>
           )}
           {isConnected && active === "mintPage" && (
-              <Group flex-wrap style={{ justifyContent: "center"}}>
+              <Group style={{ justifyContent: "center"}}>
                   <Stack 
                   spacing="sm" 
                   sx={(theme) => ({ backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] })
@@ -302,26 +315,74 @@ const Home = () => {
                 )}
                 </Group>
                   {!isMinted && (
-                    <Button
-                      my="20px"
-                      onClick={() => 
-                        mint({
-                          recklesslySetUnpreparedArgs: [timeStamp],
-                          recklesslySetUnpreparedOverrides: {
-                            value: ethers.utils.parseEther(initialDeposit)
-                          }
-                        })}
-                      disabled={isMintLoading || isMintStarted}
-                      data-mint-loading={isMintLoading}
-                      data-mint-started={isMintStarted}
-                      sx={{
-                        '&[disabled]': { color: 'gray' },
-                      }}
+                    <>
+                    <Modal
+                    centered
+                    opened={opened}
+                    onClose={() => setOpened(false)}
+                    title="Tips for the Karma"
+                    style={{fontSize: "1.4rem"}}
                     >
-                      {isMintLoading && 'Waiting for approval'}
-                      {isMintStarted && 'Minting'}
-                      {!isMintLoading && !isMintStarted && 'Confirm Mint Piggy Bank'}
-                    </Button>
+                      <Group 
+                          style={{fontSize: "1rem"}}
+                      >
+                        <Group>
+                        <Text>
+                          Creating this PiggyBank has been a labour of love. Any support is greatly appreciated and will be used for further enhancements.
+                        </Text>
+                        <Text>
+                          Tip:
+                        </Text>
+                        <Button 
+                        variant="outline"
+                        color="pink.3"
+                        onClick={()=> setTip("0.01")}>
+                          0.01eth
+                        </Button>
+                        <Button 
+                        variant="outline"
+                        color="pink.3"
+                        onClick={() => setTip("0.03")}>
+                          0.03eth
+                        </Button>
+                        <TextInput 
+                        placeholder="Other"
+                        style={{width: "90px"}}
+                        onChange={(e) => setTip(e.target.value)}
+                        />
+                        </Group>
+                        <Group
+                        >
+                        <Button
+                          my="20px"
+                          onClick={() => 
+                            mint({
+                              recklesslySetUnpreparedArgs: [timeStamp, sendTip],
+                              recklesslySetUnpreparedOverrides: {
+                                value: ethers.utils.parseEther(totalOpeningAmount)
+                              }
+                            })}
+                          disabled={isMintLoading || isMintStarted}
+                          data-mint-loading={isMintLoading}
+                          data-mint-started={isMintStarted}
+                          sx={{
+                            '&[disabled]': { color: 'gray' },
+                          }}
+                        >
+                          {isMintLoading && 'Waiting for approval'}
+                          {isMintStarted && 'Minting'}
+                          {!isMintLoading && !isMintStarted && 'Confirm Mint Piggy Bank'}
+                      </Button>
+                      </Group>
+                      </Group>
+                    </Modal>   
+                    <Group style={{justifyContent: "center"}}>
+                      <Button
+                      onClick={() => setOpened(true)}>
+                        Mint Piggy Bank
+                      </Button>
+                    </Group>
+                    </>
                   )}
                 </Stack>   
                   <div style={{ flex: '0 0 auto' }} pb="50px">
@@ -368,7 +429,7 @@ const Home = () => {
                       </BackCard>
                     </FlipCard>
                   </div> 
-              </Group>             
+              </Group>          
             )}
           </Group>     
     </Container>

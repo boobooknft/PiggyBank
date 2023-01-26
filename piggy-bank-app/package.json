@@ -27,7 +27,7 @@
     "dotenv": "^16.0.3",
     "ethers": "^5.7.0",
     "framer-motion": "^7.3.5",
-    "next": "12.2.5",
+    "next": "^12.2.5",
     "next-auth": "^4.12.3",
     "react": "^18.2.0",
     "react-calendar": "^3.8.0",

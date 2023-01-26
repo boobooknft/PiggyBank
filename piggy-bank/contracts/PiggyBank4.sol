@@ -6,7 +6,11 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-
+/// This contract acts like a safety deposit box for eth.
+/// Withdrawal is timelocked and set when minting.
+/// Additional deposits can occur at any time by any wallet.
+/// Tips are welcomed but not required.
+/// Tokens are ERC721 and can be transferred.
 
 contract PiggyBank4 is ERC721, Ownable, ReentrancyGuard {
 
@@ -26,21 +30,12 @@ contract PiggyBank4 is ERC721, Ownable, ReentrancyGuard {
 
   constructor() ERC721("PiggyBank4","0INK"){}
 
+  // Sets the minimum deposit amount required to mint a token
   function setInitialDeposit(uint _initial) external onlyOwner {
     initialDeposit = _initial;
   }
 
-  // * Old version of the function
-  // function formingDiamondHands(uint _readyTime) external payable {
-  //   require(_readyTime > block.timestamp, "Choose a date in the future");
-  //   require(msg.value >= initialDeposit, "Opening deposit required");
-  //   accounts.push(Account(_readyTime, msg.value));
-  //   uint tokenId = accounts.length - 1;
-  //   _safeMint(msg.sender, tokenId);
-  //   tokenURI(tokenId);
-  // }
-
-  //* This function creates the NFT bank and accepts a tip for the contract owner for the service *//
+  // This function creates the NFT bank and accepts a tip for the contract owner for the service
   function formingDiamondHands(uint _readyTime, uint tip) external payable {
     require(_readyTime > block.timestamp, "Choose a date in the future");
     require(msg.value >= initialDeposit, "Opening deposit required");
@@ -52,15 +47,19 @@ contract PiggyBank4 is ERC721, Ownable, ReentrancyGuard {
     tokenURI(tokenId);
   }
 
+  // Checks that the token exists
   function _tokenExists(uint256 tokenId) internal view returns (bool) {
     return tokenId < accounts.length;
   }
 
+  // allows depositing additional funds to existing token
   function deposit(uint _tokenId) external payable {
     require (_tokenExists(_tokenId), "Token does not exist. Check token id");
     accounts[_tokenId].accountBalances += msg.value;
   }
 
+  // allows owner of the token to withdraw deposited funds. 
+  // All funds are withdrawn at same time. No partial withdraw
   function withdraw(uint _tokenId) external nonReentrant {
     address theOwner = ownerOf(_tokenId);
     require(theOwner == msg.sender, "You do not own this token ");
@@ -71,12 +70,14 @@ contract PiggyBank4 is ERC721, Ownable, ReentrancyGuard {
     accounts[_tokenId].accountBalances -= amount;
     emit Withdrawn("Withdraw successful", _tokenId);
   }
-  
+
+  // returns the balance of a token 
   function getAccountBalance(uint _tokenId) external view returns (uint) {
     require (_tokenExists(_tokenId), "Token does not exist. Check token id");
     return accounts[_tokenId].accountBalances;
   }
 
+  // returns the timestamp of the unlock date
   function getReadyTime(uint _tokenId) external view returns (uint) {
     require (_tokenExists(_tokenId), "Token does not exist. Check token id");
     return accounts[_tokenId].readyTime;
@@ -99,7 +100,7 @@ contract PiggyBank4 is ERC721, Ownable, ReentrancyGuard {
         : "";   
   }
 
-  //* List of Accounts by Owner Array *//
+  //* List of tokens by Owner *//
   function getAccountsByOwner(address _owner) external view returns(uint[] memory){
     uint number = balanceOf(_owner);
     uint [] memory result = new uint[](number);
@@ -117,7 +118,7 @@ contract PiggyBank4 is ERC721, Ownable, ReentrancyGuard {
     return accounts.length;
   }
 
-  //* withdraw eth tips from contract to owner of contract *//
+  // withdraw eth tips from contract to owner of contract
   function emptyTipJar(uint amount) external onlyOwner {
     require(tipJar >= amount, "Insufficient funds");
     (bool success,) = payable(msg.sender).call{value: amount}("");
