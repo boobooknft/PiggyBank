@@ -94,8 +94,10 @@ const ElseDepositTransaction = () => {
             Enter Deposit Details
           </Title>
           <TokenID selectedRowIdHandler={selectedRowIdHandler}/>
-          <DepositAmount initialDeposit={setInitialDeposit}/>
-          <Button justify="stretch"
+          <DepositAmount initialDeposit={setInitialDeposit}
+            
+            />
+          <Button
             my="20px"
             onClick={() => 
               deposit({

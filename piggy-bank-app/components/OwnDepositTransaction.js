@@ -77,7 +77,6 @@ const OwnDepositTransaction = ({selectedRowId, setIsDeposited, setDepositHash, s
           rowSelect()
         },[selectedRowId])
         
-        console.log(obj)
         console.log(isRowSelected)
 
   return (
