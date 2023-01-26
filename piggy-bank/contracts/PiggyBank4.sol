@@ -20,6 +20,8 @@ contract PiggyBank4 is ERC721, Ownable, ReentrancyGuard {
   uint public tipJar;
 
   event Withdrawn(string message, uint tokenId);
+  event Minted(string message, uint tokenId);
+  event TipWithdraw(string message, uint amount);
 
   struct Account {
     uint readyTime;
@@ -45,6 +47,7 @@ contract PiggyBank4 is ERC721, Ownable, ReentrancyGuard {
     uint tokenId = accounts.length - 1;
     _safeMint(msg.sender, tokenId);
     tokenURI(tokenId);
+    emit Minted("Someone Minted A PiggyBank", tokenId)
   }
 
   // Checks that the token exists
@@ -124,5 +127,6 @@ contract PiggyBank4 is ERC721, Ownable, ReentrancyGuard {
     (bool success,) = payable(msg.sender).call{value: amount}("");
     require(success, "receiver rejected ETH transfer");
     tipJar -= amount;
+    emit TipWithdraw("Tip Jar Emptied", amount);
   }
 }
