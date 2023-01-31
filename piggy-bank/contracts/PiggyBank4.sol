@@ -202,7 +202,7 @@ contract PiggyBank4 is ERC721, Ownable {
 
   /**
   * @notice rescues any ERC20 or ERC721 sent to this contract by mistake
-  * 
+  * Borrowed from 0xTh0mas.eth RentADawg
   */
   function rescueTokens (address tokenAddress, bool erc20, uint256 id) external onlyOwner {
     if(erc20)(
