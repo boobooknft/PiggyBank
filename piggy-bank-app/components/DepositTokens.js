@@ -124,7 +124,7 @@ const DepositTokens = () => {
         </>
         }
         {showTable &&  !isDeposited && (
-          <div>
+          <div align="center">
             <TokenTable
             finalTokenDetails={finalTokenDetails}
             setSelectedRowId={setSelectedRowId}

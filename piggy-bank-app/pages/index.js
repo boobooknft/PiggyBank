@@ -45,9 +45,9 @@ const Home = () => {
 
     // tip needs a value, it's either 0 or the value
     // there's an issue with the deposit page also
-  const numInitialDeposit = Number(initialDeposit)
-  const numTip = Number(tip)
-  const numTotalOpeningAmount = numInitialDeposit + numTip
+  const numInitialDeposit = parseFloat(initialDeposit)
+  const numTip = parseFloat(tip)
+  const numTotalOpeningAmount = ((numInitialDeposit * 10 ** 18) + (numTip * 10 ** 18)) / 10 ** 18
   const totalOpeningAmount = String(numTotalOpeningAmount)
   const sendTip = ethers.utils.parseEther(tip)
   
@@ -351,8 +351,7 @@ const Home = () => {
                         onChange={(e) => setTip(e.target.value)}
                         />
                         </Group>
-                        <Group
-                        >
+                        <Group>
                         <Button
                           my="20px"
                           onClick={() => 
@@ -373,6 +372,20 @@ const Home = () => {
                           {isMintStarted && 'Minting'}
                           {!isMintLoading && !isMintStarted && 'Confirm Mint Piggy Bank'}
                       </Button>
+                      <Stack>
+                        <Text>
+                          Deposit: {numInitialDeposit} ETH
+                        </Text>
+                        <Text
+                        mt="-md">
+                          Tip: {numTip} ETH
+                        </Text>
+                        <Text
+                        mt="-md"
+                        style = {{fontWeight: "bold"}}>
+                          Total: {totalOpeningAmount} ETH
+                        </Text>
+                      </Stack>
                       </Group>
                       </Group>
                     </Modal>   

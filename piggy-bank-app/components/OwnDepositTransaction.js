@@ -12,7 +12,8 @@ import {
   Stack,
   Title,
   Alert,
-  Text
+  Text,
+  MediaQuery
   } from '@mantine/core'
 import DepositAmount from './DepositAmount'
 
@@ -80,6 +81,10 @@ const OwnDepositTransaction = ({selectedRowId, setIsDeposited, setDepositHash, s
         console.log(isRowSelected)
 
   return (
+    <MediaQuery 
+      smallerThan="xs" 
+      styles={{width: 300}}
+    >
     <Stack pb="50px">
       <Title
       mt="20px" 
@@ -118,6 +123,7 @@ const OwnDepositTransaction = ({selectedRowId, setIsDeposited, setDepositHash, s
         </Alert> 
       )}
       </Stack>   
+      </MediaQuery>
   )
 }
 

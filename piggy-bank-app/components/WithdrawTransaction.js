@@ -5,7 +5,7 @@ import {
   useWaitForTransaction, 
   } from 'wagmi'
 import contractInterface from '../utils/contract-abi.json'
-import { Button, Title, Stack, Text, Alert } from '@mantine/core'
+import { Button, Title, Stack, Text, Alert, MediaQuery } from '@mantine/core'
 
 const WithdrawTransaction = ({selectedRowId, setIsWithdrawn, setWithdrawHash, setTxData }) => {
 
@@ -64,6 +64,10 @@ const WithdrawTransaction = ({selectedRowId, setIsWithdrawn, setWithdrawHash, se
 
 
   return (
+    <MediaQuery
+      smallerThan="xs" 
+      styles={{width: 300}}
+    >
       <Stack position="center"
       mt='lg'
       pb="50px">
@@ -92,6 +96,7 @@ const WithdrawTransaction = ({selectedRowId, setIsWithdrawn, setWithdrawHash, se
       </Alert> 
     )}
     </Stack>
+    </MediaQuery>
   )
 }
 

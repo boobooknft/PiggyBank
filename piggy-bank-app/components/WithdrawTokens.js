@@ -8,7 +8,7 @@ import {
 import contractInterface from '../utils/contract-abi.json'
 import { TokenTable } from './TokenTable'
 import { format } from 'date-fns'
-import { Loader, Text, Stack, Title, Anchor, Paper, MediaQuery } from '@mantine/core'
+import { Loader, Text, Stack, Title, Anchor, Paper, Group } from '@mantine/core'
 import WithdrawTransaction from './WithdrawTransaction'
 
 
@@ -122,7 +122,7 @@ const WithdrawTokens = () => {
         </>
         }
         {showTable && !isWithdrawn && (
-            <div>
+          <div align="center">
             <TokenTable 
             finalTokenDetails={finalTokenDetails}
             setSelectedRowId={setSelectedRowId}
