@@ -30,59 +30,50 @@ const ElseDepositTransaction = () => {
     }
 
     const contractConfig = {
-      addressOrName:'0x63177830e23Aac9Bd0AA908106265A05253B67e7',
+      addressOrName:'0x5Ff60e28F9493F08Fa5895b75df1F5223088A031',
       contractInterface: contractInterface,
     }
-
-    // const { config, error } = usePrepareContractWrite({
-    //     ...contractConfig,
-    //     functionName: 'deposit',
-    //     args: [selectedRowId],
-    //     overrides: {
-    //       value: ethers.utils.parseEther(initialDeposit)
-    //     }
-    //   })
     
-      const { 
-        data: depositData,
-        write: deposit, 
-        isLoading: isDepositLoading,
-        isSuccess: isDepositStarted,
-        error
-      } = useContractWrite({
-        ...contractConfig,
-        functionName: 'deposit'
+    const { 
+      data: depositData,
+      write: deposit, 
+      isLoading: isDepositLoading,
+      isSuccess: isDepositStarted,
+      error
+    } = useContractWrite({
+      ...contractConfig,
+      functionName: 'deposit'
+    })
+
+    const { 
+      isSuccess: txSuccess,
+      error: txError,
+      data: txData,
+      } 
+      = useWaitForTransaction({
+        hash: depositData?.hash,
       })
+    
+      const isDeposited = txSuccess
 
-      const { 
-        isSuccess: txSuccess,
-        error: txError,
-        data: txData,
-        } 
-        = useWaitForTransaction({
-          hash: depositData?.hash,
-        })
-      
-        const isDeposited = txSuccess
+      console.log(selectedRowId)
 
-        console.log(selectedRowId)
+      const obj = JSON.parse(JSON.stringify(error))
 
-        const obj = JSON.parse(JSON.stringify(error))
-
-        useEffect(()=>{
-          const rowSelect = () => {
-            if(selectedRowId >= 0 && (selectedRowId !== '')){
-              setIsRowSelected(true)
-            } else {
-              if(selectedRowId == ''){
-                setIsRowSelected(false)
-              }
+      useEffect(()=>{
+        const rowSelect = () => {
+          if(selectedRowId >= 0 && (selectedRowId !== '')){
+            setIsRowSelected(true)
+          } else {
+            if(selectedRowId == ''){
+              setIsRowSelected(false)
             }
           }
-          rowSelect()
-        },[selectedRowId])
+        }
+        rowSelect()
+      },[selectedRowId])
 
-        console.log(error)
+      console.log(error)
 
   return (
     <>
@@ -117,10 +108,10 @@ const ElseDepositTransaction = () => {
             {isDepositLoading && 'Waiting for Approval'}
             {isDepositStarted && 'Depositing'}
           </Button> 
-          {error && isRowSelected && 
+          {error && isRowSelected && obj.error.data.originalError.data == "0x2dac9bb2" && (
           <Alert style={{width: 256}}  title="Error" mt="xl" mb="40px">
-          <Text> {obj.reason} </Text>
-          </Alert>}
+          <Text> Token Id Does Not Exist. Please check. </Text>
+          </Alert>)}
         </Stack>
       )} 
     {isDeposited && (

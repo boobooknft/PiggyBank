@@ -1,12 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState } from 'react'
 import { 
   useAccount,
   useContractWrite,
   useWaitForTransaction,
   useContractRead,
+  useContract,
+  useSigner,
+  useConnect,
+  usePrepareContractWrite
  } from 'wagmi'
 import contractInterface from '../utils/contract-abi.json'
-import { ethers, BigNumber } from 'ethers'
+import { ethers, Signer } from 'ethers'
 import InitialDepositAmount from '../components/InitialDepositAmount'
 import FlipCard, { BackCard, FrontCard } from '../components/FlipCard'
 import Image from 'next/image'
@@ -24,15 +28,11 @@ import {
   Alert,
   Modal,
   TextInput,
-  MantineProvider
   } from '@mantine/core'
 import { Calendar } from '@mantine/dates'
 import { showNotification } from '@mantine/notifications'
-import { format, set } from 'date-fns'
+import { format } from 'date-fns'
 import FAQAccordion from '../components/FAQAccordion'
-
-
-
 
 const Home = () => {
   
@@ -40,17 +40,13 @@ const Home = () => {
   const [initialDeposit, setInitialDeposit] = useState('0')
   const [active, setActive] = useState("ethDeposit")
   const [faq, setFaq] = useState(false)
-  const [tip, setTip] = useState("0")  
+  const [tip, setTip] = useState('0')  
   const [opened, setOpened] = useState(false)
 
-    // tip needs a value, it's either 0 or the value
-    // there's an issue with the deposit page also
   const numInitialDeposit = parseFloat(initialDeposit)
   const numTip = parseFloat(tip)
   const numTotalOpeningAmount = ((numInitialDeposit * 10 ** 18) + (numTip * 10 ** 18)) / 10 ** 18
   const totalOpeningAmount = String(numTotalOpeningAmount)
-  const sendTip = ethers.utils.parseEther(tip)
-  
 
   console.log(numInitialDeposit)
   console.log(numTip)
@@ -58,6 +54,8 @@ const Home = () => {
   console.log(totalOpeningAmount)
 
   const { isConnected } = useAccount()
+  const signer = useSigner()
+  const connect = useConnect()
 
   const onChange = (newValue) => {
     setValue(newValue)
@@ -66,79 +64,47 @@ const Home = () => {
   const date = Date.now() / 1000
   const timeStamp = Math.round(value.getTime()) / 1000
 
-  const calendarHandler = () => {
-    if (timeStamp < date ) {
-      showNotification({
-        message: "Please Choose a Future Date",
-        title: "Invalid Date",
-        styles: (theme) => ({
-          root: {
-            backgroundColor: theme.colors.cyan[7],
-            borderColor: theme.colors.cyan[7],
-            '&::before': { backgroundColor: theme.colors.gray[0] },
-          },
-          title: {color: theme.white},
-          description: { color: theme.white},
-          closeButton: {
-            color: theme.white,
-            '&:hover': {backgroundColor: theme.colors.cyan[3]},
-          },
-
-        }),
-      })
-    } else {
-      setActive('mintPage')
-    }
-  }
-
-
-  console.log(timeStamp)
-
   // Setting the users initial deposit when minting the eth bank
-
   const contractConfig = {
-    addressOrName:'0x63177830e23Aac9Bd0AA908106265A05253B67e7',
+    addressOrName:'0x5Ff60e28F9493F08Fa5895b75df1F5223088A031',
     contractInterface: contractInterface,
   }
 
-    const { 
+  const { 
     data: mintData,
     write: mint, 
     isLoading: isMintLoading,
     isSuccess: isMintStarted,
     error: mintError,
-  } = useContractWrite({
+    } = useContractWrite({
     mode: 'recklesslyUnprepared',  
     ...contractConfig,
     functionName: 'formingDiamondHands',
     })
-  
+
    
   const { data: supplyData } = useContractRead({
     ...contractConfig,
     functionName: 'totalSupply',
     watch: true,
-  })
+    })
 
 
- const { 
-  isSuccess: txSuccess,
-  error: txError,
-  data: txData,
-  } 
-  = useWaitForTransaction({
-    hash: mintData?.hash,
-  })
+  const { 
+    isSuccess: txSuccess,
+    error: txError,
+    data: txData,
+    } 
+    = useWaitForTransaction({
+      hash: mintData?.hash,
+    })
+
 
   const isMinted = txSuccess
-
   const totalSupplyData = parseInt(supplyData)
-
-  // useEffect(() => {
-  //   if (totalSupplyData) {
-  //     setTotalMinted(totalSupplyData);
-  //   }
-  // }, [totalSupplyData])
+  const mintObj = JSON.parse(JSON.stringify(mintError))
+  const txnObj = JSON.parse(JSON.stringify(txError))
+    
 
   const ethDepositHandler = () => {
     if (Number(initialDeposit) < 0.005 || Number(initialDeposit) <.005 ) {
@@ -167,9 +133,34 @@ const Home = () => {
     }
   }
 
-  const mintObj = JSON.parse(JSON.stringify(mintError))
-  const txnObj = JSON.parse(JSON.stringify(txError))
-     
+  const calendarHandler = () => {
+    if (timeStamp < date ) {
+      showNotification({
+        message: "Please Choose a Future Date",
+        title: "Invalid Date",
+        styles: (theme) => ({
+          root: {
+            backgroundColor: theme.colors.cyan[7],
+            borderColor: theme.colors.cyan[7],
+            '&::before': { backgroundColor: theme.colors.gray[0] },
+          },
+          title: {color: theme.white},
+          description: { color: theme.white},
+          closeButton: {
+            color: theme.white,
+            '&:hover': {backgroundColor: theme.colors.cyan[3]},
+          },
+
+        }),
+      })
+    } else {
+      setActive('mintPage')
+    }
+  }
+  console.log(timeStamp)
+  console.log(txData)
+  console.log(mintData)
+
   return (
     <>
     <Container 
@@ -298,39 +289,33 @@ const Home = () => {
                     </Group>
                     </>
                   )}
-                  <Group style={{justifyContent: "center", width: 350}} align="center">
-                  {mintError && (
-                    <Alert title="Error" mt="xl" mb="40px">
-                  <Text>
-                  An error occurred: {mintObj.reason}
-                  </Text>
-                  </Alert>
-                )}
-                {txError && (
-                  <Alert title="Error" mt="xl" mb="40px">
-                  <Text>
-                  An error occurred: {txnObj.reason}
-                  </Text>
-                  </Alert>    
-                )}
-                </Group>
                   {!isMinted && (
                     <>
                     <Modal
                     centered
                     opened={opened}
                     onClose={() => setOpened(false)}
-                    title="Tips for the Karma"
+                    title="Almost there..."
                     style={{fontSize: "1.4rem"}}
                     >
                       <Group 
-                          style={{fontSize: "1rem"}}
-                      >
-                        <Group>
+                          style={{fontSize: "1rem", justifyContent: "center", textAlign:"center"}}
+                        >
                         <Text>
-                          Creating this PiggyBank has been a labour of love. Any support is greatly appreciated and will be used for further enhancements.
+                          This services uses a pay-what-you-want model 
                         </Text>
                         <Text>
+                        Creating this PiggyBank has been a labour of love. Any support is greatly appreciated and will be used for further development
+                        </Text>
+                        <Text>
+                        Note: You are not required to pay to mint a PiggyBank
+                        </Text>
+                        <Group
+                          style={{flexDirection:"row", flexWrap:"wrap"}}
+                          mb="5px"
+                          >
+                        <Text style={{fontWeight: "semi-bold"}}
+                        color="pink.3">
                           Tip:
                         </Text>
                         <Button 
@@ -346,49 +331,66 @@ const Home = () => {
                           0.03eth
                         </Button>
                         <TextInput 
-                        placeholder="Other"
+                        type='text'
+                        placeholder="Other.."
                         style={{width: "90px"}}
+                        color="pink.3"
                         onChange={(e) => setTip(e.target.value)}
                         />
                         </Group>
-                        <Group>
-                        <Button
-                          my="20px"
-                          onClick={() => 
-                            mint({
-                              recklesslySetUnpreparedArgs: [timeStamp, sendTip],
+                        </Group>
+                        <Group style={{fontSize: "0.9rem", flexDirection: "column"}}
+                        >
+                          <Stack mt="5px">
+                          <Text>
+                            Deposit: {numInitialDeposit} ETH
+                          </Text>
+                          <Text
+                          mt="-md">
+                            Tip: {numTip} ETH
+                          </Text>
+                          <Text
+                          mt="-md"
+                          style = {{fontWeight: "bold"}}>
+                            Total: {totalOpeningAmount} ETH
+                          </Text>
+                         </Stack>
+                          <Button
+                            onClick={() => mint({
+                              recklesslySetUnpreparedArgs: [timeStamp, ethers.utils.parseEther(tip)],
                               recklesslySetUnpreparedOverrides: {
-                                value: ethers.utils.parseEther(totalOpeningAmount)
+                                value: ethers.utils.parseEther(totalOpeningAmount),
                               }
                             })}
-                          disabled={isMintLoading || isMintStarted}
-                          data-mint-loading={isMintLoading}
-                          data-mint-started={isMintStarted}
-                          sx={{
-                            '&[disabled]': { color: 'gray' },
-                          }}
-                        >
-                          {isMintLoading && 'Waiting for approval'}
-                          {isMintStarted && 'Minting'}
-                          {!isMintLoading && !isMintStarted && 'Confirm Mint Piggy Bank'}
-                      </Button>
-                      <Stack>
+                            disabled={isMintLoading || isMintStarted}
+                            data-mint-loading={isMintLoading}
+                            data-mint-started={isMintStarted}
+                            sx={{
+                              '&[disabled]': { color: 'gray' },
+                            }}
+                          >
+                            {isMintLoading && 'Waiting for approval'}
+                            {isMintStarted && 'Minting'}
+                            {!isMintLoading && !isMintStarted && 'Confirm Mint Piggy Bank'}
+                          </Button>
+                      </Group>
+                      <Group style={{justifyContent: "center", width: 350}} align="center">
+                        {mintError && (
+                          <Alert title="Error" mt="xl" mb="40px">
                         <Text>
-                          Deposit: {numInitialDeposit} ETH
+                        An error occurred: {mintObj.reason}
                         </Text>
-                        <Text
-                        mt="-md">
-                          Tip: {numTip} ETH
+                        </Alert>
+                      )}
+                      {txError && (
+                        <Alert title="Error" mt="xl" mb="40px">
+                        <Text>
+                        An error occurred: {txnObj.reason}
                         </Text>
-                        <Text
-                        mt="-md"
-                        style = {{fontWeight: "bold"}}>
-                          Total: {totalOpeningAmount} ETH
-                        </Text>
-                      </Stack>
+                        </Alert>    
+                      )}
                       </Group>
-                      </Group>
-                    </Modal>   
+                      </Modal>   
                     <Group style={{justifyContent: "center"}}>
                       <Button
                       onClick={() => setOpened(true)}>

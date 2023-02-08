@@ -12,7 +12,7 @@ const WithdrawTransaction = ({selectedRowId, setIsWithdrawn, setWithdrawHash, se
       const [isRowSelected, setIsRowSelected] = useState(false)
 
       const contractConfig = {
-        addressOrName:'0x63177830e23Aac9Bd0AA908106265A05253B67e7',
+        addressOrName:'0x5Ff60e28F9493F08Fa5895b75df1F5223088A031',
         contractInterface: contractInterface,
       }
 
@@ -44,7 +44,7 @@ const WithdrawTransaction = ({selectedRowId, setIsWithdrawn, setWithdrawHash, se
         },[txSuccess])
 
         const obj = JSON.parse(JSON.stringify(error))
-
+    
         useEffect(()=>{
           const rowSelect = () => {
             if(selectedRowId >= 0 && selectedRowId != null){
@@ -90,9 +90,9 @@ const WithdrawTransaction = ({selectedRowId, setIsWithdrawn, setWithdrawHash, se
           {isWithdrawStarted && 'Withdrawing'}
           {!isWithdrawLoading && !isWithdrawStarted && 'Withdraw'}
       </Button>
-    {error && isRowSelected && (
+    {error && isRowSelected && obj.error.data.originalError.data == "0x4d9015d9" && (
       <Alert title="Error" mt="xl" mb="40px">
-      <Text> {obj.reason} </Text>
+      <Text align="left">Eth Still Locked. Try Again Later</Text>
       </Alert> 
     )}
     </Stack>

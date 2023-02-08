@@ -16,7 +16,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 * Tokens are ERC721 and can be transferred.
 */
 
-contract PiggyBank4 is ERC721, Ownable {
+contract PiggyBank5 is ERC721, Ownable {
 
   using Strings for uint256;
   uint256 public initialDeposit = 0.005 ether;
@@ -53,7 +53,7 @@ contract PiggyBank4 is ERC721, Ownable {
   ///@dev Thrown if address is Zero Address
   error ZeroAddress();
 
-  constructor() ERC721("PiggyBank4","0INK"){}
+  constructor() ERC721("PiggyBank5","B0INK"){}
 
   /** 
   * @notice Sets the minimum deposit amount required to mint a token
@@ -183,14 +183,13 @@ contract PiggyBank4 is ERC721, Ownable {
   */
 
   function transferOwnership(address newOwner) public override virtual onlyOwner {
-        if(newOwner = address(0)) { revert ZeroAddress(); }
+        if(newOwner == address(0)) { revert ZeroAddress(); }
         _transferOwnership(newOwner);
     }
 
   /**
   * @notice withdraw ETH tips from contract to owner of contract
-  * @param _amount amount to withdraw from contract
-  * @dev
+  * withdraws full balance of tipJar
   */ 
   function emptyTipJar() external onlyOwner {
     if(tipJar == 0) { revert TipJarEmpty(); }
@@ -205,9 +204,9 @@ contract PiggyBank4 is ERC721, Ownable {
   * Borrowed from 0xTh0mas.eth RentADawg
   */
   function rescueTokens (address tokenAddress, bool erc20, uint256 id) external onlyOwner {
-    if(erc20)(
+    if(erc20){
       IERC20(tokenAddress).transfer(msg.sender, IERC20(tokenAddress).balanceOf(address(this)));
-    ) else {
+    } else {
         IERC721(tokenAddress).transferFrom(address(this), msg.sender, id);
     }
   }

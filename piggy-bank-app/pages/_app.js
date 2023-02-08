@@ -15,7 +15,7 @@ const { chains, provider } = configureChains(
 const client = createClient(
   getDefaultClient({
     autoConnect: false,
-    appName: "PiggyBank4",
+    appName: "PiggyBank",
     provider,
     chains,
   }),

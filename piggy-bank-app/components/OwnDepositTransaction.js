@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { 
-  usePrepareContractWrite, 
   useContractWrite,
   useWaitForTransaction,
-  useContract,
  } from 'wagmi'
 import contractInterface from '../utils/contract-abi.json'
 import { ethers } from 'ethers'
@@ -24,61 +22,55 @@ const OwnDepositTransaction = ({selectedRowId, setIsDeposited, setDepositHash, s
 
 
     const contractConfig = {
-      addressOrName:'0x63177830e23Aac9Bd0AA908106265A05253B67e7',
+      addressOrName:'0x5Ff60e28F9493F08Fa5895b75df1F5223088A031',
       contractInterface: contractInterface,
     }
 
-    // const { config, error } = usePrepareContractWrite({
-    //     ...contractConfig,
-    //     functionName: 'deposit',
-    //     args: [selectedRowId],
-    //     overrides: {
-    //       value: ethers.utils.parseEther(initialDeposit)
-    //     }
-    //   })
-    
-      const { 
-        data: depositData,
-        write: deposit, 
-        isLoading: isDepositLoading,
-        isSuccess: isDepositStarted,
-        error
-      } = useContractWrite({
-        ...contractConfig,
-        functionName: 'deposit'
+   
+    const { 
+      data: depositData,
+      write: deposit, 
+      isLoading: isDepositLoading,
+      isSuccess: isDepositStarted,
+      error
+    } = useContractWrite({
+      ...contractConfig,
+      functionName: 'deposit'
+    })
+
+    const { 
+      isSuccess: txSuccess,
+      error: txError,
+      data: txData,
+      } 
+      = useWaitForTransaction({
+        hash: depositData?.hash,
       })
+    
+      useEffect(() => {
+        setIsDeposited(txSuccess)
+      },[txSuccess])
 
-      const { 
-        isSuccess: txSuccess,
-        error: txError,
-        data: txData,
-        } 
-        = useWaitForTransaction({
-          hash: depositData?.hash,
-        })
-      
-        useEffect(() => {
-          setIsDeposited(txSuccess)
-        },[txSuccess])
+      useEffect(() => {
+        setDepositHash(depositData?.hash);
+        setTxData(txData)
+      }, [depositData?.hash,txData])
 
-        useEffect(() => {
-          setDepositHash(depositData?.hash);
-          setTxData(txData)
-        }, [depositData?.hash,txData])
+      const mintObj = JSON.parse(JSON.stringify(error))
+      const txnObj = JSON.parse(JSON.stringify(txError))
 
-        const mintObj = JSON.parse(JSON.stringify(error))
-        const txnObj = JSON.parse(JSON.stringify(txError))
-
-        useEffect(()=>{
-          const rowSelect = () => {
-            if(selectedRowId >= 0 && selectedRowId != null){
-              setIsRowSelected(true)
-            }
+      useEffect(()=>{
+        const rowSelect = () => {
+          if(selectedRowId >= 0 && selectedRowId != null){
+            setIsRowSelected(true)
           }
-          rowSelect()
-        },[selectedRowId])
-        
-        console.log(isRowSelected)
+        }
+        rowSelect()
+      },[selectedRowId])
+      
+      console.log(`IsRowSelected: ${isRowSelected}`)
+      console.log(`\nSelectedRowID: ${selectedRowId}`)
+      console.log(`\nInitialDeposit: ${initialDeposit}`)
 
   return (
     <MediaQuery 

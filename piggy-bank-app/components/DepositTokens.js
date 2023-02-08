@@ -30,7 +30,7 @@ const DepositTokens = () => {
     // this gets all tokens owned by the connected address
 
     const contractConfig = {
-        addressOrName:'0x63177830e23Aac9Bd0AA908106265A05253B67e7',
+        addressOrName:'0x5Ff60e28F9493F08Fa5895b75df1F5223088A031',
         contractInterface: contractInterface,
       }
 
@@ -133,6 +133,12 @@ const DepositTokens = () => {
             selectedRowId={selectedRowId}
             setDepositHash={setDepositHash}
             setTxData={setTxData}/>
+            <Text>
+                Tokens with 0 balance do not show in this table. 
+            </Text>
+            <Text>
+                You can view all tokens owned by this address in etherscan or OpenSea
+            </Text>
           </div>
         )}
         {!hasTokens && (

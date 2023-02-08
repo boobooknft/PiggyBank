@@ -28,7 +28,7 @@ const WithdrawTokens = () => {
     const { address } = useAccount()
 
     const contractConfig = {
-        addressOrName:'0x63177830e23Aac9Bd0AA908106265A05253B67e7',
+        addressOrName:'0x5Ff60e28F9493F08Fa5895b75df1F5223088A031',
         contractInterface: contractInterface,
       }
 
