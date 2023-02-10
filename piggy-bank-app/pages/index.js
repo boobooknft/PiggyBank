@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { 
   useAccount,
   useContractWrite,
@@ -98,9 +98,17 @@ const Home = () => {
     = useWaitForTransaction({
       hash: mintData?.hash,
     })
+  
+  const isMinted = txSuccess  
 
 
-  const isMinted = txSuccess
+  const logs = txData?.logs[0].topics[3]
+  const mintedToken = parseInt(logs)
+  console.log(mintedToken)
+
+  
+
+ 
   const totalSupplyData = parseInt(supplyData)
   const mintObj = JSON.parse(JSON.stringify(mintError))
   const txnObj = JSON.parse(JSON.stringify(txError))
@@ -159,7 +167,7 @@ const Home = () => {
   }
   console.log(timeStamp)
   console.log(txData)
-  console.log(mintData)
+  console.log(`\nmintData: ${mintData}`)
 
   return (
     <>
@@ -434,7 +442,7 @@ const Home = () => {
                           <p>
                           View on{' '}
                             <Anchor
-                              href={`https://testnets.opensea.io/assets/goerli/${txData?.to}/`}
+                              href={`https://testnets.opensea.io/assets/${txData?.to}/${mintedToken}`}
                               target="_blank"
                             >
                               Opensea

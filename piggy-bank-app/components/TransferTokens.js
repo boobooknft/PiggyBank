@@ -25,7 +25,7 @@ const TransferTokens = () => {
     // const [transferHash, setTransferHash] = useState('')
     // const [transferTxData, setTransferTxData] = useState(null)
     const [txnHash, setTxnHash] = useState('')
-    const [txnToAddress, setTxnToAddress] = useState('')
+
     
     const { data: signer } = useSigner('')
     const { address } = useAccount()
@@ -141,7 +141,6 @@ const TransferTokens = () => {
             <TransferTransactionUseContract
             selectedRowId={selectedRowId}
             setTxnHash={setTxnHash}
-            setTxnToAddress={setTxnToAddress}
              />
           </div>
         )}
@@ -177,7 +176,7 @@ const TransferTokens = () => {
                     >
                     View NFT on{' '}
                     <Anchor
-                    href={`https://testnets.opensea.io/${txnToAddress}/`}
+                    href={`https://testnets.opensea.io/assets/${trnsTxData?.to}/${selectedRowId}`}
                     target="_blank"
                     >
                     Opensea

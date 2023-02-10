@@ -167,7 +167,7 @@ const WithdrawTokens = () => {
                     >
                     View NFT on{' '}
                     <Anchor
-                    href={`https://testnets.opensea.io/assets/goerli/${txData?.to}/`}
+                    href={`https://testnets.opensea.io/assets/${txData?.to}/${selectedRowId}`}
                     target="_blank"
                     >
                     Opensea

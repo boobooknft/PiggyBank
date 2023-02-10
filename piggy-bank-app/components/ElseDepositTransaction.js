@@ -74,6 +74,7 @@ const ElseDepositTransaction = () => {
       },[selectedRowId])
 
       console.log(error)
+      console.log(txData)
 
   return (
     <>
@@ -133,9 +134,9 @@ const ElseDepositTransaction = () => {
            <Text 
               align="center"
               mt="sm">
-              View on{' '}
+              View token on{' '}
               <Anchor
-                href={`https://testnets.opensea.io/assets/goerli/${txData?.to}/`}
+                href={`https://testnets.opensea.io/assets/${txData?.to}/${selectedRowId}`}
                 target="_blank"
               >
                 Opensea

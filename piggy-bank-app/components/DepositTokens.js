@@ -174,7 +174,7 @@ const DepositTokens = () => {
                         mt="sm">
                         View NFT on{' '}
                         <Anchor
-                            href={`https://testnets.opensea.io/assets/goerli/${txData?.to}/`}
+                            href={`https://testnets.opensea.io/assets/goerli/${txData?.to}/${selectedRowId}`}
                             target="_blank"
                         >
                             Opensea

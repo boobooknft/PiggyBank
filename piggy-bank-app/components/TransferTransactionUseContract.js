@@ -14,7 +14,7 @@ import contractInterface from '../utils/contract-abi.json'
 import { showNotification } from '@mantine/notifications'
 
 
-const TransferTransactionUseContract = ({selectedRowId, setTxnHash, setTxnToAddress}) => {
+const TransferTransactionUseContract = ({selectedRowId, setTxnHash }) => {
 
     const [toAddress, setToAddress] = useState('')
     const [isLoading, setIsLoading] = useState(false)
@@ -93,11 +93,8 @@ const TransferTransactionUseContract = ({selectedRowId, setTxnHash, setTxnToAddr
       listener(event){
         const txHash = event.find(txHash => txHash.transactionHash != null || undefined)
         const txHashComplete = txHash.transactionHash
-        const txnToAddress = txHash.args[1]
         console.log(txHash)
         console.log(txHashComplete)
-        console.log(txnToAddress)
-        setTxnToAddress(txnToAddress)
         setTxnHash(txHashComplete)
       }
     }) 
